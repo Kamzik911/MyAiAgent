@@ -9,4 +9,9 @@ namespace MyAiAgent
             CancellationToken cancToken = default
             );
     }
+
+    public interface ITestDesignAgent
+    {
+     
+    }
 }

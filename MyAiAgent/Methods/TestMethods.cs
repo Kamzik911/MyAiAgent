@@ -3,14 +3,14 @@ using OpenAI.Chat;
 
 namespace MyAiAgent.Methods
 {
-    public sealed class TestMethods
+    public sealed class TestMethods : ITestMethods
     {
         private readonly ChatClient _chat;
 
         public TestMethods(string apiKey, string model)
         {
             _chat = new ChatClient(
-                model: "gpt-5.2",
+                model: model,
                 apiKey: apiKey
             );
         }        

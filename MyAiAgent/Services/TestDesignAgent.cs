@@ -11,15 +11,9 @@ namespace MyAiAgent.Services
             _methods = methods;
         }
 
-        public async  Task MakeEmailTest()
+        public Task<GenerateTestsResponse> GenerateAsync(GenerateTestsRequest request, CancellationToken cancToken = default)
         {
-            var request = new GenerateTestsRequest
-            {
-                FieldType = "email",
-                ValidationProfile = "rfc-ish"
-            };
-
-            await _methods.AskForEmailTests(request);
+            return _methods.AskForEmailTests(request, cancToken);
         }
     }
 }

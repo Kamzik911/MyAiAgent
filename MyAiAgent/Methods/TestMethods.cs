@@ -8,13 +8,13 @@ namespace MyAiAgent.Methods
         private readonly ChatClient _chat;
         private readonly TestDesignPrompt _testDesignPrompt;
 
-        public TestMethods(string apiKey, string model, TestDesignPrompt systemPrompt)
+        public TestMethods(TestDesignPrompt testDesignPromt, string apiKey, string model)
         {
             _chat = new ChatClient(
                 model: model,
                 apiKey: apiKey
-            );
-            _testDesignPrompt = systemPrompt;
+            );            
+            _testDesignPrompt = testDesignPromt;
         }        
 
         public async Task<GenerateTestsResponse> AskForEmailTests(FieldSpecification fieldSpec, CancellationToken cancToken = default)

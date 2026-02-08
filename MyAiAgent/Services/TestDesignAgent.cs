@@ -1,4 +1,5 @@
-﻿using MyAiAgent.Models;
+﻿using MyAiAgent.Interfaces;
+using MyAiAgent.Models;
 
 namespace MyAiAgent.Services
 {
@@ -11,9 +12,9 @@ namespace MyAiAgent.Services
             _methods = methods;               
         }
 
-        public Task<GenerateTestsResponse> GenerateAsync(FieldSpecification fieldSpec, CancellationToken cancToken = default)
+        public Task<GenerateTestsResponse> GenerateAsync(FieldSpecification fieldSpec, string userPrompt, CancellationToken cancToken = default)
         {
-            return _methods.AskForEmailTests(fieldSpec, cancToken);
+            return _methods.AskForEmailTests(fieldSpec, userPrompt, cancToken);
         }
 
         public async Task<string> AskAsync(string userRequest, CancellationToken cancToken = default)

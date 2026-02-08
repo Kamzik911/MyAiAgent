@@ -24,7 +24,7 @@
                 Margin="0,10"
                 Height="35"
                 Content="Send"
-                Click="Send_Click"/>
+                Click="QuestionSendButton"/>
 
         <!-- Výstup -->
         <TextBox 

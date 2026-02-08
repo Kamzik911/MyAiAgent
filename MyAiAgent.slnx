@@ -1,5 +1,4 @@
 <Solution>
   <Project Path="CommWindow/CommWindow.csproj" Id="217c2487-f520-40a7-a42a-00842527696a" />
-  <Project Path="MyAiAgent.Api/MyAiAgent.Api.csproj" Id="4f47db03-91fd-42e8-b7cd-0c8769007699" />
   <Project Path="MyAiAgent/MyAiAgent.csproj" />
 </Solution>

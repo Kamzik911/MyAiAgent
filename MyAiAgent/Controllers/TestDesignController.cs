@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyAiAgent.Models;
+﻿using MyAiAgent.Models;
 using MyAiAgent.Services;
 
 namespace MyAiAgent.Controllers

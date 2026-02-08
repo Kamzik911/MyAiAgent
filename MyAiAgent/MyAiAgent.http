@@ -1,6 +1,0 @@
-@MyAiAgent_HostAddress = http://localhost:5293
-
-GET {{MyAiAgent_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

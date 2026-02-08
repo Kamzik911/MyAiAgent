@@ -4,18 +4,22 @@ namespace MyAiAgent.Services
 {
     public sealed class TestDesignAgent : ITestDesignAgent
     {
-        private readonly ITestMethods _methods;
-        private readonly ITestDesignAgent _designAgent;
+        private readonly ITestMethods _methods;        
 
-        public TestDesignAgent(ITestMethods methods, ITestDesignAgent designAgent)
+        public TestDesignAgent(ITestMethods methods)
         {
-            _methods = methods;
-            _designAgent = designAgent;
+            _methods = methods;               
         }
 
         public Task<GenerateTestsResponse> GenerateAsync(FieldSpecification fieldSpec, CancellationToken cancToken = default)
         {
             return _methods.AskForEmailTests(fieldSpec, cancToken);
+        }
+
+        public async Task<string> AskAsync(string userRequest, CancellationToken cancToken = default)
+        {
+            await Task.Delay(500);
+            return $"Agent received: {userRequest}";
         }
     }
 }

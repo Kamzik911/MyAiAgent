@@ -10,5 +10,6 @@ namespace MyAiAgent
     public interface ITestDesignAgent
     {
         Task<GenerateTestsResponse>GenerateAsync(FieldSpecification fieldSpec, CancellationToken cancToken = default);
+        Task<string> AskAsync(string userRequest, CancellationToken cancToken = default);
     }
 }

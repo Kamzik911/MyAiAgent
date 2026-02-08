@@ -1,6 +1,6 @@
 ﻿namespace MyAiAgent.Models
 {
-    public sealed class GenerateTestsRequest
+    public sealed class FieldSpecification
     {
         public string FieldType { get; set; } = "";
         public bool IsRequired { get; set; } = true;

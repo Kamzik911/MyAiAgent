@@ -6,34 +6,23 @@ namespace MyAiAgent.Methods
     public sealed class TestMethods : ITestMethods
     {
         private readonly ChatClient _chat;
-        private readonly Prompts _systemPrompt;
+        private readonly TestDesignPrompt _testDesignPrompt;
 
-        public TestMethods(string apiKey, string model, Prompts systemPrompt)
+        public TestMethods(string apiKey, string model, TestDesignPrompt systemPrompt)
         {
             _chat = new ChatClient(
                 model: model,
                 apiKey: apiKey
             );
-            _systemPrompt = systemPrompt;
+            _testDesignPrompt = systemPrompt;
         }        
 
-        public async Task<GenerateTestsResponse> AskForEmailTests(GenerateTestsRequest request, CancellationToken cancToken = default)
+        public async Task<GenerateTestsResponse> AskForEmailTests(FieldSpecification fieldSpec, CancellationToken cancToken = default)
         {
-            string systemPrompt = _systemPrompt.systemPrompt;
+            string systemPrompt = _testDesignPrompt.systemPrompt;
 
-            var userPrompt = $"""
-                Pole/Funkcionalita:
-                - fieldType: {request.FieldType}
-                - validationProfile: {request.ValidationProfile}
-                - required: {request.IsRequired}
-                - minLength: {request.MinLength}
-                - maxLength: {request.MaxLength}
-                - riskLevel: {request.RiskLevel}
-                - businessRules: {request.BusinessRules ?? "null"}
-                - notes: {request.Notes ?? "null"}
+            var userPrompt = _testDesignPrompt.userPrompt;
 
-                Navrhni testy.
-                """;
             var messages = new List<ChatMessage>
             {
                 new SystemChatMessage(systemPrompt),

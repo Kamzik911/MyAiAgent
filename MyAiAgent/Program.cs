@@ -14,7 +14,8 @@ if (string.IsNullOrEmpty(apiKey))
     throw new InvalidOperationException("Missing OpenAI: ApiKey in user secrets");
 
 var model = builder.Configuration["OpenAI:Model"] ?? "gpt-5.2";
-var systemPrompt = new Prompts();
+var fieldSpec = new FieldSpecification();
+var systemPrompt = new TestDesignPrompt(fieldSpec);
 builder.Services.AddSingleton<MyAiAgent.ITestMethods>(_ =  new TestMethods(apiKey, model, systemPrompt));
 builder.Services.AddSingleton<MyAiAgent.Services.TestDesignAgent>();
 builder.Services.AddEndpointsApiExplorer();

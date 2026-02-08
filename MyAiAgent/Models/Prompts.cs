@@ -1,9 +1,16 @@
 ﻿namespace MyAiAgent.Models
 {
-    public class Prompts
-    {        
+    public class TestDesignPrompt
+    {
+        private readonly FieldSpecification _fieldSpec;        
+
+        public TestDesignPrompt(FieldSpecification fieldSpec)
+        {
+            _fieldSpec = fieldSpec;            
+        }
+
         public string systemPrompt = """
-                "techniques": ["EP, "BVA", "Negative"],
+                "techniques": ["EP", "BVA", "Negative"],
                 "testCases": [
                   {
                     "id": "TC-01",
@@ -16,5 +23,19 @@
                 ],
                 "openQuestions": []
                 """;
+
+        public string userPrompt => $"""
+                Pole/Funkcionalita:
+                - fieldType: {_fieldSpec.FieldType}
+                - validationProfile: {_fieldSpec.ValidationProfile}
+                - required: {_fieldSpec.IsRequired}
+                - minLength: {_fieldSpec.MinLength}
+                - maxLength: {_fieldSpec.MaxLength}
+                - riskLevel: {_fieldSpec.RiskLevel}
+                - businessRules: {_fieldSpec.BusinessRules ?? "null"}
+                - notes: {_fieldSpec.Notes ?? "null"}
+
+                Navrhni testy.
+                """;        
     }
 }

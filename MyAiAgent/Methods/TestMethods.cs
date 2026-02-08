@@ -6,31 +6,20 @@ namespace MyAiAgent.Methods
     public sealed class TestMethods : ITestMethods
     {
         private readonly ChatClient _chat;
+        private readonly Prompts _systemPrompt;
 
-        public TestMethods(string apiKey, string model)
+        public TestMethods(string apiKey, string model, Prompts systemPrompt)
         {
             _chat = new ChatClient(
                 model: model,
                 apiKey: apiKey
             );
+            _systemPrompt = systemPrompt;
         }        
 
         public async Task<GenerateTestsResponse> AskForEmailTests(GenerateTestsRequest request, CancellationToken cancToken = default)
         {
-            string systemPrompt = """
-                "techniques": ["EP, "BVA", "Negative"],
-                "testCases": [
-                  {
-                    "id": "TC-01",
-                    "technique": "BVA",
-                    "title": "Valid email - lower boundary",
-                    "input": "a@b.cz",
-                    "expected": "Email accepted",
-                    "priority": "P1"
-                  }
-                ],
-                "openQuestions": []
-                """;
+            string systemPrompt = _systemPrompt.systemPrompt;
 
             var userPrompt = $"""
                 Pole/Funkcionalita:

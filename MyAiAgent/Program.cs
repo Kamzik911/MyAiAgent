@@ -1,4 +1,5 @@
 using MyAiAgent.Methods;
+using MyAiAgent.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +14,8 @@ if (string.IsNullOrEmpty(apiKey))
     throw new InvalidOperationException("Missing OpenAI: ApiKey in user secrets");
 
 var model = builder.Configuration["OpenAI:Model"] ?? "gpt-5.2";
-
-builder.Services.AddSingleton<MyAiAgent.ITestMethods>(_ =  new TestMethods(apiKey, model));
+var systemPrompt = new Prompts();
+builder.Services.AddSingleton<MyAiAgent.ITestMethods>(_ =  new TestMethods(apiKey, model, systemPrompt));
 builder.Services.AddSingleton<MyAiAgent.Services.TestDesignAgent>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

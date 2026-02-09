@@ -35,12 +35,9 @@ namespace CommWindow
                 }
 
                 var result = await _agent.GenerateAsync(_fieldSpec, prompt);
-                
 
-                OutputTextBox.Text = JsonSerializer.Serialize(result, new JsonSerializerOptions
-                {
-                    WriteIndented = true,
-                });
+
+                OutputTextBox.Text = result.Markdown;
             }
             catch (Exception ex)
             {

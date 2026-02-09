@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using MyAiAgent.Interfaces;
 using MyAiAgent.Methods;
 using MyAiAgent.Models;
-using MyAiAgent.Services;
 
 namespace CommWindow
 {
@@ -43,7 +42,7 @@ namespace CommWindow
                 return new TestMethods(apiKey, model, fieldSpec);                
             });
 
-            services.AddTransient<ITestDesignAgent, TestDesignAgent>();                        
+            services.AddTransient<IQuestionsToAgent, QuestionsToAgent>();                        
             services.AddSingleton<MainWindow>();
 
             _provider = services.BuildServiceProvider();

@@ -8,6 +8,7 @@ namespace MyAiAgent.Methods
     {
         private readonly ChatClient _chat;        
         private readonly FieldSpecification _fieldSpec;
+
         public TestMethods(string apiKey, string model, FieldSpecification fieldSpec)
         {
             _chat = new ChatClient(

@@ -2,13 +2,13 @@
 {
     public class TestDesignPrompt
     {
-        private readonly FieldSpecification _fieldSpec;
-                
-        public TestDesignPrompt() : this(new FieldSpecification()) { }
+        readonly FieldSpecification _fieldSpec;
+        private readonly string? _extra;
 
-        public TestDesignPrompt(FieldSpecification fieldSpec)
+        public TestDesignPrompt(FieldSpecification fieldSpec, string? extra = null)
         {
             _fieldSpec = fieldSpec ?? throw new ArgumentNullException(nameof(fieldSpec));
+            _extra = extra;
         }
 
         public string systemPrompt = """
@@ -26,7 +26,7 @@
                 "openQuestions": []
                 """;
 
-        public string userPrompt => $"""
+        public string userPrompt => $@"
                 Pole/Funkcionalita:
                 - fieldType: {_fieldSpec.FieldType}
                 - validationProfile: {_fieldSpec.ValidationProfile}
@@ -35,9 +35,7 @@
                 - maxLength: {_fieldSpec.MaxLength}
                 - riskLevel: {_fieldSpec.RiskLevel}
                 - businessRules: {_fieldSpec.BusinessRules ?? "null"}
-                - notes: {_fieldSpec.Notes ?? "null"}
-
-                Navrhni testy.
-                """;        
+                - notes: {_fieldSpec.Notes ?? "null"}                
+                - extra instuctions: {(_extra is not null ? $"\\nDalší instrukce: {_extra}" : "")}";                
     }
 }

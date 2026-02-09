@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using System.Windows;
+﻿using System.Windows;
 using MyAiAgent.Interfaces;
 using MyAiAgent.Models;
 
@@ -10,10 +9,10 @@ namespace CommWindow
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly ITestDesignAgent _agent;
+        private readonly IQuestionsToAgent _agent;
         private readonly FieldSpecification _fieldSpec;
 
-        public MainWindow(ITestDesignAgent agent)
+        public MainWindow(IQuestionsToAgent agent)
         {
             InitializeComponent();
             _agent = agent;
@@ -34,7 +33,7 @@ namespace CommWindow
                     return;
                 }
 
-                var result = await _agent.GenerateAsync(_fieldSpec, prompt);
+                var result = await _agent.EmailQuestionGenerateAsync(_fieldSpec, prompt);
 
 
                 OutputTextBox.Text = result.Markdown;

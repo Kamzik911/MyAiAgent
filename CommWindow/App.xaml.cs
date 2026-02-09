@@ -2,9 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyAiAgent.Interfaces;
-using MyAiAgent.Methods;
-using MyAiAgent.Models;
-
+using MyAiAgent.Services;
 namespace CommWindow
 {
     /// <summary>
@@ -12,7 +10,7 @@ namespace CommWindow
     /// </summary>
     public partial class App : Application
     {
-        private ServiceProvider? _provider;        
+        private ServiceProvider? _provider;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -25,24 +23,16 @@ namespace CommWindow
                 .Build();
             
             var services = new ServiceCollection();                        
-            services.AddSingleton<IConfiguration>(config);                        
+            services.AddSingleton<IConfiguration>(config);                                   
             
-            services.AddSingleton<FieldSpecification>();                        
-            services.AddSingleton<ITestMethods>(sp =>
+            services.AddSingleton<IChatService>(sp =>
             {
                 var configuration = sp.GetRequiredService<IConfiguration>();
                 var apiKey = configuration["OpenAI:ApiKey"];
-                var model = configuration["OpenAI:Model"];
-
-                if (string.IsNullOrWhiteSpace(apiKey) || string.IsNullOrWhiteSpace(model))
-                {
-                    throw new InvalidOperationException("Missing OpenAI configuration. Set OpenAI:ApiKey and OpenAI:Model in appsettings.json.");
-                }
-                var fieldSpec = sp.GetRequiredService<FieldSpecification>();
-                return new TestMethods(apiKey, model, fieldSpec);                
+                var model = configuration["OpenAI:Model"];                
+                return new ChatService(apiKey, model);                
             });
-
-            services.AddTransient<IQuestionsToAgent, QuestionsToAgent>();                        
+            
             services.AddSingleton<MainWindow>();
 
             _provider = services.BuildServiceProvider();

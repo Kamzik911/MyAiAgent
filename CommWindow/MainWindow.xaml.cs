@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using MyAiAgent.Interfaces;
-using MyAiAgent.Models;
 
 namespace CommWindow
 {
@@ -8,39 +7,33 @@ namespace CommWindow
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {
-        private readonly IQuestionsToAgent _agent;
-        private readonly FieldSpecification _fieldSpec;
+    {        
+        private readonly IChatService _chat;
 
-        public MainWindow(IQuestionsToAgent agent)
+        public MainWindow(IChatService chat)
         {
             InitializeComponent();
-            _agent = agent;
-            _fieldSpec = new FieldSpecification();
+            _chat = chat;
         }
 
         public async void QuestionSendButton(object sender, RoutedEventArgs e)
         {
+            var query = InputTextBox.Text?.Trim();
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                OutputTextBox.Text = "Zadejte dotaz, prosím.";
+                return;
+            }
+            SendButton.IsEnabled = false;
+            OutputTextBox.Text = "Odesílám dotaz...";
             try
             {
-                SendButton.IsEnabled = false;
-                OutputTextBox.Text = "Working...";
-
-                var prompt = InputTextBox.Text?.Trim();
-                if (string.IsNullOrWhiteSpace(prompt))
-                {
-                    OutputTextBox.Text = "Please enter a request.";
-                    return;
-                }
-
-                var result = await _agent.EmailQuestionGenerateAsync(_fieldSpec, prompt);
-
-
-                OutputTextBox.Text = result.Markdown;
-            }
+                var answer = await _chat.AskAsync(query);
+                OutputTextBox.Text = answer;
+            }        
             catch (Exception ex)
             {
-                OutputTextBox.Text = ex.ToString();
+                OutputTextBox.Text = ex.Message;
             }
             finally
             {

@@ -1,19 +1,8 @@
-﻿using MyAiAgent.Models;
-
+﻿
 namespace MyAiAgent.Interfaces
 {
-    public interface ITestMethods
+    public interface IChatService
     {
-        Task<GenerateTestsResponse> AskForEmailTests(FieldSpecification fieldSpec, string? prompt, CancellationToken cancToken = default);
-    }
-
-    public interface IQuestionsToAgent
-    {
-        Task<GenerateTestsResponse> EmailQuestionGenerateAsync(FieldSpecification fieldSpec, string? prompt, CancellationToken cancToken = default);     
-    }
-
-    public interface IGeneralChatAgent
-    {
-        Task<string> AskAsync(string userRequest, CancellationToken cancToken = default);
+        Task<string> AskAsync(string userMessage, CancellationToken cancToken = default);
     }
 }

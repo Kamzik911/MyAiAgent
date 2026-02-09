@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using MyAiAgent.Interfaces;
 using MyAiAgent.Methods;
 using MyAiAgent.Models;
@@ -40,16 +41,18 @@ namespace CommWindow
                 return new TestMethods(apiKey, model);                
             });
             
-            services.AddSingleton<ITestDesignAgent, TestDesignAgent>();
+            services.AddTransient<ITestDesignAgent, TestDesignAgent>();
 
             //WPF okna
             services.AddTransient<TestDesignPrompt>();
-            services.AddSingleton<MainWindow>();            
+            services.AddTransient<MainWindow>();            
 
             _provider = services.BuildServiceProvider();
 
             var mainWindow = _provider.GetRequiredService<MainWindow>();
             mainWindow.Show();
+
+            
         }
     }
 }

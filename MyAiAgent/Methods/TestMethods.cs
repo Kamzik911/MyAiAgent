@@ -1,50 +1,26 @@
-﻿using MyAiAgent.Models;
+﻿using MyAiAgent.Interfaces;
+using MyAiAgent.Models;
 using OpenAI.Chat;
 
 namespace MyAiAgent.Methods
 {
-    public sealed class TestMethods
+    public sealed class TestMethods : ITestMethods
     {
-        private readonly ChatClient _chat;
+        private readonly ChatClient _chat;        
 
         public TestMethods(string apiKey, string model)
         {
             _chat = new ChatClient(
-                model: "gpt-5.2",
+                model: model,
                 apiKey: apiKey
-            );
-        }        
+            );                        
+        }
 
-        public async Task<GenerateTestsResponse> AskForEmailTests(GenerateTestsRequest request, CancellationToken cancToken = default)
+        public async Task<GenerateTestsResponse> AskForEmailTests(string? prompt, CancellationToken cancToken = default)
         {
-            string systemPrompt = """
-                "techniques": ["EP, "BVA", "Negative"],
-                "testCases": [
-                  {
-                    "id": "TC-01",
-                    "technique": "BVA",
-                    "title": "Valid email - lower boundary",
-                    "input": "a@b.cz",
-                    "expected": "Email accepted",
-                    "priority": "P1"
-                  }
-                ],
-                "openQuestions": []
-                """;
-
-            var userPrompt = $"""
-                Pole/Funkcionalita:
-                - fieldType: {request.FieldType}
-                - validationProfile: {request.ValidationProfile}
-                - required: {request.IsRequired}
-                - minLength: {request.MinLength}
-                - maxLength: {request.MaxLength}
-                - riskLevel: {request.RiskLevel}
-                - businessRules: {request.BusinessRules ?? "null"}
-                - notes: {request.Notes ?? "null"}
-
-                Navrhni testy.
-                """;
+            var testDesignPrompt = new TestDesignPrompt();
+            string systemPrompt = testDesignPrompt.systemPrompt;            
+            var userPrompt = testDesignPrompt.userPrompt;
             var messages = new List<ChatMessage>
             {
                 new SystemChatMessage(systemPrompt),
@@ -59,6 +35,6 @@ namespace MyAiAgent.Methods
             {
                 Markdown = content
             };
-        }
+        }       
     }
 }

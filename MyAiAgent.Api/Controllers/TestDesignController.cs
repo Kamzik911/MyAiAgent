@@ -16,9 +16,9 @@ namespace MyAiAgent.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GenerateTestsResponse>> Generate([FromBody] GenerateTestsRequest request, CancellationToken ct)
+        public async Task<ActionResult<GenerateTestsResponse>> Generate([FromBody] FieldSpecification request, CancellationToken cancToken)
         {
-            var res = await _agent.GenerateAsync(request, ct);
+            var res = _agent.GenerateAsync(request);
             return Ok(res);
         }
     }

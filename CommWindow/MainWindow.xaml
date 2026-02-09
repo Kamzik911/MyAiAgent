@@ -1,0 +1,40 @@
+﻿<Window x:Class="CommWindow.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                
+        Title="MainWindow" Height="450" Width="800">
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+
+            <!--Vstup -->
+        <TextBox x:Name="InputTextBox"
+                 Grid.Row="0"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto"
+                 FontSize="14"/>
+
+        <!-- Tlačítko -->
+        <Button x:Name="SendButton"
+                Grid.Row="1"
+                Margin="0,10"
+                Height="35"
+                Content="Send"
+                Click="QuestionSendButton"/>
+
+        <!-- Výstup -->
+        <TextBox 
+                x:Name="OutputTextBox"
+                Grid.Row="2"
+                AcceptsReturn="True"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto"
+                IsReadOnly="True"
+                FontSize="14"/>
+
+    </Grid>
+</Window>

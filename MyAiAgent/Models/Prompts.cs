@@ -2,7 +2,12 @@
 {
     public class TestDesignPrompt
     {
-        private readonly FieldSpecification _fieldSpec;               
+        private readonly FieldSpecification _fieldSpec;
+                
+        public TestDesignPrompt(FieldSpecification fieldSpec)
+        {
+            _fieldSpec = fieldSpec ?? throw new ArgumentNullException(nameof(fieldSpec));
+        }
 
         public string systemPrompt = """
                 "techniques": ["EP", "BVA", "Negative"],

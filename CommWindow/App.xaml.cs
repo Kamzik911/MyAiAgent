@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using MyAiAgent.Interfaces;
 using MyAiAgent.Methods;
 using MyAiAgent.Models;
@@ -15,6 +14,7 @@ namespace CommWindow
     public partial class App : Application
     {
         private ServiceProvider? _provider;
+        private readonly FieldSpecification ?fieldSpec;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -38,7 +38,7 @@ namespace CommWindow
                 {
                     throw new InvalidOperationException("Missing OpenAI configuration. Set OpenAI:ApiKey and OpenAI:Model in appsettings.json.");
                 }
-                return new TestMethods(apiKey, model);                
+                return new TestMethods(apiKey, model, fieldSpec);                
             });
             
             services.AddTransient<ITestDesignAgent, TestDesignAgent>();

@@ -14,7 +14,7 @@ namespace CommWindow
     public partial class App : Application
     {
         private ServiceProvider? _provider;
-        private readonly FieldSpecification ?fieldSpec;
+        FieldSpecification fieldSpec;
 
         protected override void OnStartup(StartupEventArgs e)
         {

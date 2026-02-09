@@ -4,6 +4,8 @@
     {
         private readonly FieldSpecification _fieldSpec;
                 
+        public TestDesignPrompt() : this(new FieldSpecification()) { }
+
         public TestDesignPrompt(FieldSpecification fieldSpec)
         {
             _fieldSpec = fieldSpec ?? throw new ArgumentNullException(nameof(fieldSpec));

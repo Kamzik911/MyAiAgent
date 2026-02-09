@@ -4,12 +4,12 @@ namespace MyAiAgent.Interfaces
 {
     public interface ITestMethods
     {
-        Task<GenerateTestsResponse> AskForEmailTests(string? prompt, CancellationToken cancToken = default);
+        Task<GenerateTestsResponse> AskForEmailTests(FieldSpecification fieldSpec, string? prompt, CancellationToken cancToken = default);
     }
 
     public interface ITestDesignAgent
     {
-        Task<GenerateTestsResponse>GenerateAsync(string? prompt, CancellationToken cancToken = default);
+        Task<GenerateTestsResponse>GenerateAsync(FieldSpecification fieldSpec, string? prompt, CancellationToken cancToken = default);
         Task<string> AskAsync(string userRequest, CancellationToken cancToken = default);
     }
 }

@@ -12,9 +12,9 @@ namespace MyAiAgent.Services
             _methods = methods;               
         }
 
-        public Task<GenerateTestsResponse> GenerateAsync(string? prompt, CancellationToken cancToken = default)
+        public Task<GenerateTestsResponse> GenerateAsync(FieldSpecification fieldSpec, string? prompt, CancellationToken cancToken = default)
         {
-            return _methods.AskForEmailTests(prompt, cancToken);
+            return _methods.AskForEmailTests(fieldSpec, prompt, cancToken);
         }
 
         public async Task<string> AskAsync(string userRequest, CancellationToken cancToken = default)

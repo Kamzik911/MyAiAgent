@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyAiAgent.Interfaces;
 using MyAiAgent.Methods;
+using MyAiAgent.Models;
 using MyAiAgent.Services;
 
 namespace CommWindow
@@ -42,7 +43,8 @@ namespace CommWindow
             services.AddSingleton<ITestDesignAgent, TestDesignAgent>();
 
             //WPF okna
-            services.AddSingleton<MainWindow>();
+            services.AddTransient<TestDesignPrompt>();
+            services.AddSingleton<MainWindow>();            
 
             _provider = services.BuildServiceProvider();
 

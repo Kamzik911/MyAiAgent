@@ -18,7 +18,7 @@ namespace MyAiAgent.Methods
 
         public async Task<GenerateTestsResponse> AskForEmailTests(FieldSpecification fieldSpec, string? prompt, CancellationToken cancToken = default)
         {
-            var testDesignPrompt = new TestDesignPrompt(fieldSpec);
+            var testDesignPrompt = new TestDesignPrompt();
             string systemPrompt = testDesignPrompt.systemPrompt;            
             var userPrompt = testDesignPrompt.userPrompt;
             var messages = new List<ChatMessage>

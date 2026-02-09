@@ -14,12 +14,11 @@ namespace CommWindow
         private readonly TestDesignPrompt _prompts;
         private readonly FieldSpecification _fieldSpec;
 
-        public MainWindow(ITestDesignAgent agent, TestDesignPrompt prompt, FieldSpecification fieldSpec)
+        public MainWindow(ITestDesignAgent agent, TestDesignPrompt prompts)
         {
             InitializeComponent();
-            _agent = agent;            
-            _prompts = prompt;
-            _fieldSpec = fieldSpec;
+            _agent = agent;                                    
+            _prompts = prompts;
         }
 
         public async void QuestionSendButton(object sender, RoutedEventArgs e)

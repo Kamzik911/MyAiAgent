@@ -2,12 +2,7 @@
 {
     public class TestDesignPrompt
     {
-        private readonly FieldSpecification _fieldSpec;        
-
-        public TestDesignPrompt(FieldSpecification fieldSpec)
-        {
-            _fieldSpec = fieldSpec;            
-        }
+        private readonly FieldSpecification _fieldSpec;               
 
         public string systemPrompt = """
                 "techniques": ["EP", "BVA", "Negative"],

@@ -7,16 +7,18 @@ namespace MyAiAgent.Services
     {
         private readonly ChatClient _client;
 
+        private string systemMessage = "You are a helpful assistant.";
+
         public ChatService(string apiKey, string model)
         {
             _client = new ChatClient(model: model, apiKey: apiKey);
-        }
+        }        
 
         public async Task<string> AskAsync(string userMessage, CancellationToken cancToken = default)
         {
             var chatMessage = new List<ChatMessage>
             {
-                new SystemChatMessage("You are a helpful assistant."),
+                new SystemChatMessage(systemMessage),
                 new UserChatMessage(userMessage)
             };
 

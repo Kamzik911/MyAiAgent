@@ -11,33 +11,46 @@ namespace CommWindow
     public partial class App : Application
     {
         private ServiceProvider? _provider;
+        private ServiceCollection _serviceCollection;
 
-        protected override void OnStartup(StartupEventArgs e)
+        public App(ServiceCollection serviceCollection)
         {
-            base.OnStartup(e);
+            _serviceCollection = serviceCollection;
+        }
 
+        public IConfiguration ConfigurationBuilderSetup()
+        {
             var config = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: true)
                 .AddUserSecrets<App>()
                 .Build();
-            
-            var services = new ServiceCollection();                        
-            services.AddSingleton<IConfiguration>(config);                                   
-            
-            services.AddSingleton<IChatService>(sp =>
+            return config;
+        }
+
+        public void ConfigMainWindow()
+        {
+            _serviceCollection.AddSingleton<MainWindow>();
+            _provider = _serviceCollection.BuildServiceProvider();
+            var mainWindow = _provider.GetRequiredService<MainWindow>();
+            mainWindow.Show();
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            _serviceCollection.AddSingleton(ConfigurationBuilderSetup());
+
+            _serviceCollection.AddSingleton<IChatService>(sp =>
             {
                 var configuration = sp.GetRequiredService<IConfiguration>();
                 var apiKey = configuration["OpenAI:ApiKey"];
                 var model = configuration["OpenAI:Model"];                
                 return new ChatService(apiKey, model);                
             });
-            
-            services.AddSingleton<MainWindow>();
 
-            _provider = services.BuildServiceProvider();
-            var mainWindow = _provider.GetRequiredService<MainWindow>();
-            mainWindow.Show();            
+            ConfigMainWindow();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace MyAiAgent.Methods
             );                        
         }
 
-        public async Task<GenerateTestsResponse> AskForEmailTests(FieldSpecification fieldSpec, CancellationToken cancToken = default)
+        public async Task<GenerateTestsResponse> AskForEmailTests(FieldSpecification fieldSpec, string? prompt, CancellationToken cancToken = default)
         {
             var testDesignPrompt = new TestDesignPrompt(fieldSpec);
             string systemPrompt = testDesignPrompt.systemPrompt;            

@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Windows;
 using MyAiAgent.Interfaces;
 using MyAiAgent.Models;
@@ -11,12 +10,16 @@ namespace CommWindow
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly ITestDesignAgent _agent;        
+        private readonly ITestDesignAgent _agent;
+        private readonly TestDesignPrompt _prompts;
+        private readonly FieldSpecification _fieldSpec;
 
-        public MainWindow(ITestDesignAgent agent)
+        public MainWindow(ITestDesignAgent agent, TestDesignPrompt prompt, FieldSpecification fieldSpec)
         {
             InitializeComponent();
             _agent = agent;            
+            _prompts = prompt;
+            _fieldSpec = fieldSpec;
         }
 
         public async void QuestionSendButton(object sender, RoutedEventArgs e)
@@ -34,9 +37,9 @@ namespace CommWindow
                     return;
                 }
 
-                var result = await _agent.GenerateAsync(prompt);
+                var result = await _agent.GenerateAsync(_fieldSpec, _prompts.userPrompt);
 
-                OutputTextBox.Text = result is string s ? s : JsonSerializer.Serialize(result, new JsonSerializerOptions
+                OutputTextBox.Text = JsonSerializer.Serialize(result, new JsonSerializerOptions
                 {
                     WriteIndented = true,
                 });

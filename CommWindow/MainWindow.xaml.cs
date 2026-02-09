@@ -11,19 +11,16 @@ namespace CommWindow
     public partial class MainWindow : Window
     {
         private readonly ITestDesignAgent _agent;
-        private readonly TestDesignPrompt _prompts;
-        private readonly FieldSpecification _fieldSpec;
+        private readonly FieldSpecification _fieldSpecs = new ();
 
-        public MainWindow(ITestDesignAgent agent, TestDesignPrompt prompts)
+        public MainWindow(ITestDesignAgent agent)
         {
             InitializeComponent();
-            _agent = agent;                                    
-            _prompts = prompts;
+            _agent = agent;            
         }
 
         public async void QuestionSendButton(object sender, RoutedEventArgs e)
-        {
-            
+        {            
             try
             {
                 SendButton.IsEnabled = false;
@@ -36,7 +33,7 @@ namespace CommWindow
                     return;
                 }
 
-                var result = await _agent.GenerateAsync(_fieldSpec, _prompts.userPrompt);
+                var result = await _agent.GenerateAsync(_fieldSpecs, prompt);
 
                 OutputTextBox.Text = JsonSerializer.Serialize(result, new JsonSerializerOptions
                 {

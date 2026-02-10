@@ -6,23 +6,12 @@ using MyAiAgent.Services;
 namespace CommWindow.Configurations
 {
     public class ServiceSetup : IServiceSetup
-    {        
-        private readonly IServiceCollection _serviceColl;
+    {
 
-        public ServiceSetup(ServiceCollection serviceColl)
+        public void ChatServiceSetup(IServiceCollection services, IConfiguration config)
         {
-            _serviceColl = serviceColl;
-        }
-        public IServiceCollection ChatServiceSetup()
-        {
-            var chatSetup = _serviceColl.AddSingleton<IChatService>(sp =>
-            {
-                var configuration = sp.GetRequiredService<IConfiguration>();
-                var apiKey = configuration["OpenAI:ApiKey"];
-                var model = configuration["OpenAI:Model"];
-                return new ChatService(apiKey, model);
-            });
-            return chatSetup;
-        }
+            services.AddSingleton<IChatService>(sp =>
+                new ChatService(config["OpenAI:ApiKey"], config["OpenAI:Model"]));
+        }        
     }
 }

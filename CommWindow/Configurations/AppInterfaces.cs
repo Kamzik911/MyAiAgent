@@ -11,10 +11,11 @@ namespace CommWindow.Configurations
     interface IConfigMainWindow
     {
         void ConfigWindow();
+        void Dispose();
     }
 
     interface IServiceSetup
     {
-        IServiceCollection ChatServiceSetup();
+        void ChatServiceSetup(IServiceCollection services, IConfiguration config);
     }
 }

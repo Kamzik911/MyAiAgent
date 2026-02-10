@@ -1,9 +1,6 @@
 ﻿using System.Windows;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using MyAiAgent.Interfaces;
-using MyAiAgent.Services;
 using CommWindow.Configurations;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CommWindow
 {
@@ -13,32 +10,36 @@ namespace CommWindow
     public partial class App : Application
     {
         private ServiceProvider? _provider;
-        private readonly IServiceSetup _serviceSetup;
+        public App() 
+        {        
+        }        
         private readonly ConfigMainWindow _configMainWindow;
-        private readonly AppConfigurations _appConfigurations;
-
-        public App(ServiceSetup serviceSetup, ConfigMainWindow configMainWindow, AppConfigurations appConfigurations)
-        {
-            _serviceSetup = serviceSetup;
-            _configMainWindow = configMainWindow;
-            _appConfigurations = appConfigurations;
-        }
         
-        public void StartApp()
-        {            
-            _appConfigurations.ConfigurationBuilderSetup();
-            _serviceSetup.ChatServiceSetup();
-            _configMainWindow.ConfigWindow();
-        }
-
-        public void Dispose()
+        protected override void OnStartup(StartupEventArgs e)
         {
-            if (_provider != null)
-            {
-                _provider.Dispose();
-            }
+            base.OnStartup(e);
+
+            //registrace konfigurace a vlastní služby
+            var services = new ServiceCollection();
+            services.AddSingleton<AppConfigurations>();
+            services.AddSingleton<ServiceSetup>();
+            services.AddSingleton<ConfigMainWindow>();            
+
+            _provider = services.BuildServiceProvider();
+
+            //inicializace a spuštění
+            var appConfig = _provider.GetRequiredService<AppConfigurations>();
+            var config = appConfig.ConfigurationBuilderSetup();
+            services.AddSingleton(config);
+
+            _provider.GetRequiredService<ServiceSetup>().ChatServiceSetup(services, config);
+            _provider.GetRequiredService<ConfigMainWindow>().ConfigWindow();
         }
 
+        public void OnExitApp()
+        {
+            _configMainWindow.Dispose();            
+        }
         
     }
 }

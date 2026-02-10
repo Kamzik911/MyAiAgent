@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyAiAgent.Interfaces;
 using MyAiAgent.Services;
+
 namespace CommWindow
 {
     /// <summary>
@@ -12,7 +13,7 @@ namespace CommWindow
     {
         private ServiceProvider? _provider;
         private ServiceCollection _serviceColl = new ServiceCollection();        
-
+        
         public IConfiguration ConfigurationBuilderSetup()
         {
             var config = new ConfigurationBuilder()
@@ -56,9 +57,9 @@ namespace CommWindow
             base.OnStartup(e);
 
             _serviceColl.AddSingleton(ConfigurationBuilderSetup());            
-
-            ChatServiceSetup();
+                        
             ConfigMainWindow();
+            ChatServiceSetup();
             Dispose();
         }
     }

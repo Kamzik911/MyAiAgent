@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using CommWindow.Configurations;
 using Microsoft.Extensions.DependencyInjection;
+using MyAiAgent.Services;
 
 namespace CommWindow
 {
@@ -21,9 +22,9 @@ namespace CommWindow
 
             //registrace konfigurace a vlastní služby
             var services = new ServiceCollection();
-            services.AddSingleton<AppConfigurations>();
             services.AddSingleton<ServiceSetup>();
             services.AddSingleton<ConfigMainWindow>();            
+            services.AddSingleton<AppConfigurations>();
 
             _provider = services.BuildServiceProvider();
 
@@ -34,11 +35,6 @@ namespace CommWindow
 
             _provider.GetRequiredService<ServiceSetup>().ChatServiceSetup(services, config);
             _provider.GetRequiredService<ConfigMainWindow>().ConfigWindow();
-        }
-
-        public void OnExitApp()
-        {
-            _configMainWindow.Dispose();            
         }
         
     }

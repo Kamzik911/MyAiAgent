@@ -10,8 +10,7 @@ namespace CommWindow.Configurations
 
     interface IConfigMainWindow
     {
-        void ConfigWindow();
-        void Dispose();
+        ServiceProvider ConfigWindow();        
     }
 
     interface IServiceSetup

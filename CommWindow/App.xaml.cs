@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using CommWindow.Configurations;
 using Microsoft.Extensions.DependencyInjection;
-using MyAiAgent.Services;
 
 namespace CommWindow
 {
@@ -13,28 +12,32 @@ namespace CommWindow
         private ServiceProvider? _provider;
         public App() 
         {        
-        }        
-        private readonly ConfigMainWindow _configMainWindow;
+        }                
         
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
-            //registrace konfigurace a vlastní služby
+                        
+            //registrace konfigurace tak, aby DI znalo Iconfiguration
             var services = new ServiceCollection();
-            services.AddSingleton<ServiceSetup>();
-            services.AddSingleton<ConfigMainWindow>();            
-            services.AddSingleton<AppConfigurations>();
-
-            _provider = services.BuildServiceProvider();
-
-            //inicializace a spuštění
-            var appConfig = _provider.GetRequiredService<AppConfigurations>();
-            var config = appConfig.ConfigurationBuilderSetup();
+            var config = new AppConfigurations().ConfigurationBuilderSetup();
             services.AddSingleton(config);
+            
+            // registrace ServiceSetup a dalších služeb
+            services.AddSingleton<ServiceSetup>();            
 
-            _provider.GetRequiredService<ServiceSetup>().ChatServiceSetup(services, config);
-            _provider.GetRequiredService<ConfigMainWindow>().ConfigWindow();
+            //Registrace chat service
+            new ServiceSetup().ChatServiceSetup(services, config);
+
+            //registrace MainWindow
+            services.AddSingleton<MainWindow>();
+
+            //sestavení provideru 
+            _provider = services.BuildServiceProvider();
+            
+            //Zobrazení hlavního okna
+            var mainWindow = _provider.GetRequiredService<MainWindow>();
+            mainWindow.Show();
         }
         
     }

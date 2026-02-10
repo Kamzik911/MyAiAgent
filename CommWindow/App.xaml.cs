@@ -11,12 +11,7 @@ namespace CommWindow
     public partial class App : Application
     {
         private ServiceProvider? _provider;
-        private ServiceCollection _serviceCollection;
-
-        public App(ServiceCollection serviceCollection)
-        {
-            _serviceCollection = serviceCollection;
-        }
+        private ServiceCollection _serviceColl = new ServiceCollection();        
 
         public IConfiguration ConfigurationBuilderSetup()
         {
@@ -30,27 +25,41 @@ namespace CommWindow
 
         public void ConfigMainWindow()
         {
-            _serviceCollection.AddSingleton<MainWindow>();
-            _provider = _serviceCollection.BuildServiceProvider();
+            _serviceColl.AddSingleton<MainWindow>();
+            _provider = _serviceColl.BuildServiceProvider();
             var mainWindow = _provider.GetRequiredService<MainWindow>();
             mainWindow.Show();
+        }
+
+        public IServiceCollection ChatServiceSetup()
+        {
+            var chatSetup = _serviceColl.AddSingleton<IChatService>(sp =>
+            {
+                var configuration = sp.GetRequiredService<IConfiguration>();
+                var apiKey = configuration["OpenAI:ApiKey"];
+                var model = configuration["OpenAI:Model"];
+                return new ChatService(apiKey, model);
+            });
+            return chatSetup;
+        }
+
+        public void Dispose()
+        {
+            if (_provider != null)
+            {
+                _provider.Dispose();
+            }
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            _serviceCollection.AddSingleton(ConfigurationBuilderSetup());
+            _serviceColl.AddSingleton(ConfigurationBuilderSetup());            
 
-            _serviceCollection.AddSingleton<IChatService>(sp =>
-            {
-                var configuration = sp.GetRequiredService<IConfiguration>();
-                var apiKey = configuration["OpenAI:ApiKey"];
-                var model = configuration["OpenAI:Model"];                
-                return new ChatService(apiKey, model);                
-            });
-
+            ChatServiceSetup();
             ConfigMainWindow();
+            Dispose();
         }
     }
 }

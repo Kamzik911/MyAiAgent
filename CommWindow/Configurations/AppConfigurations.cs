@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
+
 namespace CommWindow.Configurations
 {
-    public class AppConfigurations : IAppConfigurations
+    public class AppConfigurations : IAppConfigs
     {        
         public IConfiguration ConfigurationBuilderSetup()
         {

@@ -14,13 +14,19 @@ namespace MyAiAgent.Services
             _client = new ChatClient(model: model, apiKey: apiKey);
         }        
 
-        public async Task<string> AskAsync(string userMessage, CancellationToken cancToken = default)
+        public List<ChatMessage> SystemMessage(string userMessage, CancellationToken cancToken = default)
         {
             var chatMessage = new List<ChatMessage>
             {
                 new SystemChatMessage(systemMessage),
                 new UserChatMessage(userMessage)
             };
+            return chatMessage;
+        }
+        
+        public async Task<string> AskAsync(string userMessage, CancellationToken cancToken = default)
+        {
+            List<ChatMessage> chatMessage = SystemMessage(userMessage, cancToken);            
 
             var response = await _client.CompleteChatAsync(chatMessage, options: null, cancellationToken: cancToken);
             return response.Value.Content[0].Text;

@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CommWindow.Configurations
 {
-    interface IAppConfigurations
+    interface IAppConfigs
     {
         IConfiguration ConfigurationBuilderSetup();
     }

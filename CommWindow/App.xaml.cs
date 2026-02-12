@@ -9,7 +9,8 @@ namespace CommWindow
     /// </summary>
     public partial class App : Application
     {
-        private ServiceProvider? _provider;
+        private ServiceProvider? _provider;        
+
         public App() { }
 
         public void ConfigureServices(IServiceCollection services)
@@ -17,9 +18,7 @@ namespace CommWindow
             //registrace konfigurace tak, aby DI znalo Iconfiguration
             var config = new AppConfigurations().ConfigurationBuilderSetup();
             services.AddSingleton(config);
-
-            // registrace ServiceSetup a dalších služeb
-            services.AddSingleton<ServiceSetup>();
+                                    
             //Registrace chat service
             new ServiceSetup().ChatServiceSetup(services, config);
 

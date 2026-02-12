@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using MyAiAgent.Interfaces;
+using MyAiAgent.Services;
 
 namespace CommWindow
 {
@@ -8,9 +8,9 @@ namespace CommWindow
     /// </summary>
     public partial class MainWindow : Window
     {        
-        private readonly IChatService _chat;
+        private readonly ChatCompletionClient _chat;
 
-        public MainWindow(IChatService chat)
+        public MainWindow(ChatCompletionClient chat)
         {
             InitializeComponent();
             _chat = chat;
@@ -39,7 +39,6 @@ namespace CommWindow
             {
                 SendButton.IsEnabled = true;
             }
-
         }
     }
 }
